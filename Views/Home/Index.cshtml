@@ -44,14 +44,16 @@
 <div class="row mb-4">
     <div class="col-md-6">
         <div class="card p-3">
-            <h5>Server CPU Usage</h5>
+            <h5>Infrastructure Utilization Overview</h5>
+            <p class="text-muted mb-2">CPU usage across monitored servers</p>
             <canvas id="cpuChart"></canvas>
         </div>
     </div>
 
     <div class="col-md-6">
         <div class="card p-3">
-            <h5>Server Memory Usage</h5>
+            <h5>Memory Utilization Overview</h5>
+            <p class="text-muted mb-2">Memory usage across monitored servers</p>
             <canvas id="memoryChart"></canvas>
         </div>
     </div>
@@ -60,7 +62,8 @@
 <div class="row mb-4">
     <div class="col-md-6">
         <div class="card p-3">
-            <h5>Service Health Summary</h5>
+            <h5>Service Health Distribution</h5>
+            <p class="text-muted mb-2">Healthy, warning, and critical service counts</p>
             <canvas id="serviceHealthChart"></canvas>
         </div>
     </div>
@@ -68,6 +71,7 @@
     <div class="col-md-6">
         <div class="card p-3">
             <h5>Incident Severity Breakdown</h5>
+            <p class="text-muted mb-2">Active incidents grouped by operational severity</p>
             <canvas id="incidentSeverityChart"></canvas>
         </div>
     </div>
@@ -160,8 +164,33 @@
                             <span class="badge bg-secondary">@server.HealthStatus</span>
                         }
                     </td>
-                    <td>@server.CpuUsage%</td>
-                    <td>@server.MemoryUsage%</td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar
+                                @(server.CpuUsage >= 85 ? "bg-danger" : server.CpuUsage >= 70 ? "bg-warning text-dark" : "bg-success")"
+                                 role="progressbar"
+                                 style="width: @server.CpuUsage%;"
+                                 aria-valuenow="@server.CpuUsage"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100">
+                                @server.CpuUsage%
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar
+                                @(server.MemoryUsage >= 85 ? "bg-danger" : server.MemoryUsage >= 70 ? "bg-warning text-dark" : "bg-success")"
+                                 role="progressbar"
+                                 style="width: @server.MemoryUsage%;"
+                                 aria-valuenow="@server.MemoryUsage"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100">
+                                @server.MemoryUsage%
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -305,7 +334,8 @@
             labels: serverNames,
             datasets: [{
                 label: 'CPU Usage %',
-                data: cpuUsage
+                data: cpuUsage,
+                backgroundColor: ['#198754', '#ffc107', '#dc3545']
             }]
         }
     });
@@ -316,7 +346,8 @@
             labels: serverNames,
             datasets: [{
                 label: 'Memory Usage %',
-                data: memoryUsage
+                data: memoryUsage,
+                backgroundColor: ['#198754', '#ffc107', '#dc3545']
             }]
         }
     });
@@ -327,7 +358,8 @@
             labels: ['Healthy', 'Warning', 'Critical'],
             datasets: [{
                 label: 'Services',
-                data: [healthyServices, warningServices, criticalServices]
+                data: [healthyServices, warningServices, criticalServices],
+                backgroundColor: ['#198754', '#ffc107', '#dc3545']
             }]
         }
     });
@@ -338,7 +370,8 @@
             labels: ['Critical', 'High', 'Medium', 'Low'],
             datasets: [{
                 label: 'Incidents',
-                data: [criticalIncidents, highIncidents, mediumIncidents, lowIncidents]
+                data: [criticalIncidents, highIncidents, mediumIncidents, lowIncidents],
+                backgroundColor: ['#dc3545', '#fd7e14', '#ffc107', '#6c757d']
             }]
         }
     });
