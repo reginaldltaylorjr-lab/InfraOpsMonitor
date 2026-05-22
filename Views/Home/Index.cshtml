@@ -166,8 +166,7 @@
                     </td>
                     <td>
                         <div class="progress">
-                            <div class="progress-bar
-                                @(server.CpuUsage >= 85 ? "bg-danger" : server.CpuUsage >= 70 ? "bg-warning text-dark" : "bg-success")"
+                            <div class="progress-bar @(server.CpuUsage >= 85 ? "bg-danger" : server.CpuUsage >= 70 ? "bg-warning text-dark" : "bg-success")"
                                  role="progressbar"
                                  style="width: @server.CpuUsage%;"
                                  aria-valuenow="@server.CpuUsage"
@@ -180,8 +179,7 @@
 
                     <td>
                         <div class="progress">
-                            <div class="progress-bar
-                                @(server.MemoryUsage >= 85 ? "bg-danger" : server.MemoryUsage >= 70 ? "bg-warning text-dark" : "bg-success")"
+                            <div class="progress-bar @(server.MemoryUsage >= 85 ? "bg-danger" : server.MemoryUsage >= 70 ? "bg-warning text-dark" : "bg-success")"
                                  role="progressbar"
                                  style="width: @server.MemoryUsage%;"
                                  aria-valuenow="@server.MemoryUsage"
