@@ -41,6 +41,38 @@
     </div>
 </div>
 
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Server CPU Usage</h5>
+            <canvas id="cpuChart"></canvas>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Server Memory Usage</h5>
+            <canvas id="memoryChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Service Health Summary</h5>
+            <canvas id="serviceHealthChart"></canvas>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-3">
+            <h5>Incident Severity Breakdown</h5>
+            <canvas id="incidentSeverityChart"></canvas>
+        </div>
+    </div>
+</div>
+
 <form method="get" class="row mb-4">
     <div class="col-md-3">
         <input type="text" name="searchTerm" class="form-control" placeholder="Search services, servers, incidents..." />
@@ -250,3 +282,64 @@
         </tbody>
     </table>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const serverNames = @Html.Raw(Json.Serialize(Model.Servers.Select(s => s.ServerName)));
+    const cpuUsage = @Html.Raw(Json.Serialize(Model.Servers.Select(s => s.CpuUsage)));
+    const memoryUsage = @Html.Raw(Json.Serialize(Model.Servers.Select(s => s.MemoryUsage)));
+
+    const healthyServices = @Model.HealthyServices;
+    const warningServices = @Model.WarningServices;
+    const criticalServices = @Model.CriticalServices;
+
+    const criticalIncidents = @Model.Incidents.Count(i => i.Severity == "Critical");
+    const highIncidents = @Model.Incidents.Count(i => i.Severity == "High");
+    const mediumIncidents = @Model.Incidents.Count(i => i.Severity == "Medium");
+    const lowIncidents = @Model.Incidents.Count(i => i.Severity == "Low");
+
+    new Chart(document.getElementById('cpuChart'), {
+        type: 'bar',
+        data: {
+            labels: serverNames,
+            datasets: [{
+                label: 'CPU Usage %',
+                data: cpuUsage
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('memoryChart'), {
+        type: 'bar',
+        data: {
+            labels: serverNames,
+            datasets: [{
+                label: 'Memory Usage %',
+                data: memoryUsage
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('serviceHealthChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Healthy', 'Warning', 'Critical'],
+            datasets: [{
+                label: 'Services',
+                data: [healthyServices, warningServices, criticalServices]
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('incidentSeverityChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Critical', 'High', 'Medium', 'Low'],
+            datasets: [{
+                label: 'Incidents',
+                data: [criticalIncidents, highIncidents, mediumIncidents, lowIncidents]
+            }]
+        }
+    });
+</script>
