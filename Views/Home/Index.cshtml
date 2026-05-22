@@ -1,0 +1,252 @@
+﻿@model InfraOpsMonitor.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "InfraOps Monitor";
+}
+
+<h1>InfraOps Monitor</h1>
+<p class="text-muted">Infrastructure health, service monitoring, and incident response dashboard</p>
+
+<p class="text-muted">
+    Last Updated: @DateTime.Now.ToString("MM/dd/yyyy hh:mm tt")
+</p>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h5>Total Services</h5>
+            <h2>@Model.TotalServices</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h5>Healthy</h5>
+            <h2>@Model.HealthyServices</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h5>Warning</h5>
+            <h2>@Model.WarningServices</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-3">
+            <h5>Open Incidents</h5>
+            <h2>@Model.OpenIncidents</h2>
+        </div>
+    </div>
+</div>
+
+<form method="get" class="row mb-4">
+    <div class="col-md-3">
+        <input type="text" name="searchTerm" class="form-control" placeholder="Search services, servers, incidents..." />
+    </div>
+
+    <div class="col-md-2">
+        <select name="serviceStatusFilter" class="form-select">
+            <option value="">All Service Statuses</option>
+            <option value="Healthy">Healthy</option>
+            <option value="Warning">Warning</option>
+            <option value="Critical">Critical</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <select name="environmentFilter" class="form-select">
+            <option value="">All Environments</option>
+            <option value="Production">Production</option>
+            <option value="QA">QA</option>
+            <option value="Development">Development</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <select name="incidentSeverityFilter" class="form-select">
+            <option value="">All Severities</option>
+            <option value="Critical">Critical</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <select name="incidentStatusFilter" class="form-select">
+            <option value="">All Incident Statuses</option>
+            <option value="Open">Open</option>
+            <option value="Acknowledged">Acknowledged</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+        </select>
+    </div>
+
+    <div class="col-md-1">
+        <button type="submit" class="btn btn-primary w-100">Filter</button>
+    </div>
+</form>
+
+<h3>Server Health</h3>
+
+<div class="table-responsive mb-4">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Server</th>
+                <th>IP Address</th>
+                <th>Environment</th>
+                <th>Health</th>
+                <th>CPU Usage</th>
+                <th>Memory Usage</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var server in Model.Servers)
+            {
+                <tr>
+                    <td>@server.ServerName</td>
+                    <td>@server.IpAddress</td>
+                    <td>@server.EnvironmentName</td>
+                    <td>
+                        @if (server.HealthStatus == "Healthy")
+                        {
+                            <span class="badge bg-success">Healthy</span>
+                        }
+                        else if (server.HealthStatus == "Warning")
+                        {
+                            <span class="badge bg-warning text-dark">Warning</span>
+                        }
+                        else if (server.HealthStatus == "Critical")
+                        {
+                            <span class="badge bg-danger">Critical</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@server.HealthStatus</span>
+                        }
+                    </td>
+                    <td>@server.CpuUsage%</td>
+                    <td>@server.MemoryUsage%</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<h3>Service Status</h3>
+
+<div class="table-responsive mb-4">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Service</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Uptime</th>
+                <th>Hosted On</th>
+                <th>Last Checked</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var service in Model.Services)
+            {
+                <tr>
+                    <td>@service.ServiceName</td>
+                    <td>@service.ServiceType</td>
+                    <td>
+                        @if (service.Status == "Healthy")
+                        {
+                            <span class="badge bg-success">Healthy</span>
+                        }
+                        else if (service.Status == "Warning")
+                        {
+                            <span class="badge bg-warning text-dark">Warning</span>
+                        }
+                        else if (service.Status == "Critical")
+                        {
+                            <span class="badge bg-danger">Critical</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@service.Status</span>
+                        }
+                    </td>
+                    <td>@service.UptimePercentage%</td>
+                    <td>@service.Server?.ServerName</td>
+                    <td>@service.LastChecked</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<h3>Active Incidents</h3>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Incident</th>
+                <th>Description</th>
+                <th>Severity</th>
+                <th>Status</th>
+                <th>Assigned Engineer</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var incident in Model.Incidents)
+            {
+                <tr>
+                    <td><strong>@incident.IncidentTitle</strong></td>
+                    <td>@incident.Description</td>
+                    <td>
+                        @if (incident.Severity == "Critical")
+                        {
+                            <span class="badge bg-danger">Critical</span>
+                        }
+                        else if (incident.Severity == "High")
+                        {
+                            <span class="badge bg-warning text-dark">High</span>
+                        }
+                        else if (incident.Severity == "Medium")
+                        {
+                            <span class="badge bg-primary">Medium</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@incident.Severity</span>
+                        }
+                    </td>
+                    <td>
+                        @if (incident.Status == "Open")
+                        {
+                            <span class="badge bg-danger">Open</span>
+                        }
+                        else if (incident.Status == "Acknowledged")
+                        {
+                            <span class="badge bg-warning text-dark">Acknowledged</span>
+                        }
+                        else if (incident.Status == "In Progress")
+                        {
+                            <span class="badge bg-primary">In Progress</span>
+                        }
+                        else if (incident.Status == "Resolved")
+                        {
+                            <span class="badge bg-success">Resolved</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@incident.Status</span>
+                        }
+                    </td>
+                    <td>@incident.AssignedEngineer</td>
+                    <td>@incident.CreatedAt</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
