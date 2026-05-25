@@ -8,7 +8,8 @@
 <p class="text-muted">Infrastructure health, service monitoring, and incident response dashboard</p>
 
 <p class="text-muted">
-    Last Updated: @DateTime.Now.ToString("MM/dd/yyyy hh:mm tt")
+    Last Updated: @DateTime.Now.ToString("MM/dd/yyyy hh:mm tt") |
+    Auto-refresh: Every 30 seconds
 </p>
 
 <div class="row mb-4">
@@ -373,4 +374,10 @@
             }]
         }
     });
+</script>
+
+<script>
+    setTimeout(function () {
+        window.location.reload();
+    }, 30000);
 </script>

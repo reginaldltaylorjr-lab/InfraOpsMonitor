@@ -1,8 +1,10 @@
 using InfraOpsMonitor.Data;
 using InfraOpsMonitor.Models;
+using InfraOpsMonitor.Services;
 using InfraOpsMonitor.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 
 namespace InfraOpsMonitor.Controllers
@@ -10,19 +12,24 @@ namespace InfraOpsMonitor.Controllers
     public class HomeController : Controller
     {
         private readonly InfraOpsDbContext _context;
+        private readonly InfrastructureSimulationService _simulationService;
 
-        public HomeController(InfraOpsDbContext context)
+        public HomeController(InfraOpsDbContext context, InfrastructureSimulationService simulationService)
         {
             _context = context;
+            _simulationService = simulationService;
         }
 
-        public IActionResult Index(string searchTerm,
+        public IActionResult Index(
+            string searchTerm,
             string serviceStatusFilter,
             string environmentFilter,
             string incidentSeverityFilter,
             string incidentStatusFilter
             )
         {
+            _simulationService.UpdateSystemMetrics();
+            
             var servers =  _context.Servers.ToList();
 
             var services = _context.Services
