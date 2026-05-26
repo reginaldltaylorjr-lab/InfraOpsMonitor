@@ -1,0 +1,46 @@
+﻿@model InfraOpsMonitor.Models.Server
+
+@{
+    ViewData["Title"] = "Create Server";
+}
+
+<h1>Add New Server</h1>
+
+<form asp-action="CreateServer" method="post">
+    <div class="mb-3">
+        <label asp-for="ServerName" class="form-label"></label>
+        <input asp-for="ServerName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="IpAddress" class="form-label"></label>
+        <input asp-for="IpAddress" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EnvironmentName" class="form-label"></label>
+        <input asp-for="EnvironmentName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="HealthStatus" class="form-label"></label>
+        <select asp-for="HealthStatus" class="form-select">
+            <option value="Healthy">Healthy</option>
+            <option value="Warning">Warning</option>
+            <option value="Critical">Critical</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CpuUsage" class="form-label"></label>
+        <input asp-for="CpuUsage" class="form-control" type="number" min="0" max="100" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MemoryUsage" class="form-label"></label>
+        <input asp-for="MemoryUsage" class="form-control" type="number" min="0" max="100" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Servers" class="btn btn-secondary">Cancel</a>
+</form>

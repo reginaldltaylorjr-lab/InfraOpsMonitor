@@ -1,0 +1,43 @@
+﻿@model IEnumerable<InfraOpsMonitor.Models.Server>
+
+@{
+    ViewData["Title"] = "Server Management";
+}
+
+<h1>Server Management</h1>
+<p class="text-muted">Admin-only infrastructure server management.</p>
+
+<a asp-action="CreateServer" class="btn btn-primary mb-3">Add New Server</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Server</th>
+            <th>IP Address</th>
+            <th>Environment</th>
+            <th>Health</th>
+            <th>CPU</th>
+            <th>Memory</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var server in Model)
+        {
+            <tr>
+                <td>@server.ServerName</td>
+                <td>@server.IpAddress</td>
+                <td>@server.EnvironmentName</td>
+                <td>@server.HealthStatus</td>
+                <td>@server.CpuUsage%</td>
+                <td>@server.MemoryUsage%</td>
+                <td>
+                    <a asp-action="EditServer" asp-route-id="@server.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="DeleteServer" asp-route-id="@server.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">Back to Admin Panel</a>

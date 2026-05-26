@@ -1,0 +1,28 @@
+﻿@model InfraOpsMonitor.Models.Server
+
+@{
+    ViewData["Title"] = "Delete Server";
+}
+
+<h1>Delete Server</h1>
+
+<div class="alert alert-danger">
+    Are you sure you want to delete this server?
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Server Name</dt>
+    <dd class="col-sm-9">@Model.ServerName</dd>
+
+    <dt class="col-sm-3">IP Address</dt>
+    <dd class="col-sm-9">@Model.IpAddress</dd>
+
+    <dt class="col-sm-3">Environment</dt>
+    <dd class="col-sm-9">@Model.EnvironmentName</dd>
+</dl>
+
+<form asp-action="DeleteServer" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Servers" class="btn btn-secondary">Cancel</a>
+</form>

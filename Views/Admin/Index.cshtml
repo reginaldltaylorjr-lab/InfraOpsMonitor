@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<h1>Admin Panel</h1>
+<p class="text-muted">Restricted operational control center for InfraOps administrators.</p>
+
+<div class="alert alert-warning">
+    Admin-only access confirmed. This area is protected by role-based authorization.
+</div>
+
+<a asp-action="Servers" class="btn btn-primary mb-4">Manage Servers</a>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Total Servers</h5>
+            <h2>@ViewBag.TotalServers</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Total Services</h5>
+            <h2>@ViewBag.TotalServices</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Total Incidents</h5>
+            <h2>@ViewBag.TotalIncidents</h2>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card p-3 border-danger">
+            <h5>Critical Services</h5>
+            <h2>@ViewBag.CriticalServices</h2>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-3 border-warning">
+            <h5>Open Incidents</h5>
+            <h2>@ViewBag.OpenIncidents</h2>
+        </div>
+    </div>
+</div>

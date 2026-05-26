@@ -174,7 +174,8 @@ using (var scope = app.Services.CreateScope())
     }
 
     string adminEmail = "admin@infraops.com";
-    string adminPassword = "Admin123!";
+    string adminPassword = "Password#1";
+    //string adminPassword = "Admin123!";
 
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
@@ -188,6 +189,11 @@ using (var scope = app.Services.CreateScope())
         };
 
         await userManager.CreateAsync(adminUser, adminPassword);
+        //await userManager.AddToRoleAsync(adminUser, "Admin");
+    }
+
+    if (adminUser != null && !await userManager.IsInRoleAsync(adminUser, "Admin"))
+    {
         await userManager.AddToRoleAsync(adminUser, "Admin");
     }
 
