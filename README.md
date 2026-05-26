@@ -1,8 +1,10 @@
 Live demo: https://infraopsmonitor-taylorr-project.azurewebsites.net 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
 
 Overview
 
-InfraOps Monitor simulates a real-world infrastructure operations dashboard used by systems engineering, DevOps, and IT operations teams to monitor service health, infrastructure utilization, and operational incidents across multiple environments.
+InfraOps Monitor simulates a real-world infrastructure operations dashboard used by systems engineering, DevOps, and IT operations teams to monitor service health, infrastructure utilization, and operational incidents across multiple environments. This project was developed to demonstrate practical systems engineering, cloud infrastructure, DevOps, and operational monitoring skills through a production-style ASP.NET Core application architecture deployed in Microsoft Azure.
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
 
 The application was designed to demonstrate enterprise-style operational visibility concepts including:
 
@@ -12,7 +14,8 @@ incident management
 live operational updates
 REST API development
 cloud deployment workflows
-CI/CD automation
+CI/CD automation 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
 
 The project evolved from a locally hosted ASP.NET Core MVC application into a fully cloud-deployed Azure-hosted monitoring platform integrated with Azure SQL Database and automated GitHub Actions deployment pipelines.
 
@@ -38,7 +41,8 @@ SignalR Live Monitoring Integration
 Real-time SignalR client connection
 Live monitoring connection status notifications
 Foundation for real-time infrastructure event broadcasting
-REST API Endpoints
+REST API Endpoints 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
 
 Professional REST-style API architecture exposing infrastructure data through JSON endpoints:
 
@@ -46,14 +50,15 @@ Professional REST-style API architecture exposing infrastructure data through JS
 /api/services
 /api/incidents
 /api/dashboard/summary
-Infrastructure Simulation Engine
+Infrastructure Simulation Engine 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
 
 Custom simulation service dynamically updates:
 
 infrastructure metrics
 service health states
 utilization percentages
-operational incident conditions
+operational incident conditions 
 
 This simulates live infrastructure behavior commonly seen in enterprise monitoring systems.
 
@@ -66,18 +71,21 @@ Azure SQL Database Integration
 Migrated from SQL Server LocalDB to Azure SQL Database
 Entity Framework Core database migrations
 Cloud-hosted relational data persistence
-GitHub Actions CI/CD Pipeline
+GitHub Actions CI/CD Pipeline 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
 
 Implemented Continuous Integration / Continuous Deployment workflow:
 
-GitHub Push → GitHub Actions Build → Azure Deployment
+GitHub Push → GitHub Actions Build → Azure Deployment 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
 
 Automated deployment pipeline features:
 
 GitHub Actions workflow automation
 Azure App Service deployment integration
 Automated cloud deployment on push to main branch
-Production Troubleshooting Experience
+Production Troubleshooting Experience 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
 
 Resolved real-world deployment and infrastructure issues including:
 
@@ -121,7 +129,8 @@ Cloud-hosted application deployment
 CI/CD automation pipelines
 Systems engineering operational tooling
 Production deployment troubleshooting
-Future Enhancements
+Future Enhancements 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
 
 Planned enhancements include:
 
@@ -142,12 +151,10 @@ Operational status tracking
 Cloud Deployment
 Azure App Service deployment
 GitHub Actions CI/CD workflow
-Azure SQL cloud integration
-Author
+Azure SQL cloud integration 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
 
-Reginald Taylor
-GitHub: reginaldtaylorjr-lab
+Author: Reginald Taylor
+GitHub: reginaldtaylorjr-lab 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
 
-Project Purpose
-
-This project was developed to demonstrate practical systems engineering, cloud infrastructure, DevOps, and operational monitoring skills through a production-style ASP.NET Core application architecture deployed in Microsoft Azure.
