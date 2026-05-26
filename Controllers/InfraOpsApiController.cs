@@ -4,7 +4,7 @@ using InfraOpsMonitor.Data;
 
 namespace InfraOpsMonitor.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class InfraOpsApiController : ControllerBase
     {
@@ -27,6 +27,17 @@ namespace InfraOpsMonitor.Controllers
         {
             var services = _context.Services
                 .Include(s => s.Server)
+                .Select(s => new
+                {
+                    s.Id,
+                    s.ServiceName,
+                    s.ServiceType,
+                    s.Status,
+                    s.UptimePercentage,
+                    s.LastChecked,
+                    ServerName = s.Server != null ? s.Server.ServerName : null,
+                    EnvironmentName = s.Server != null ? s.Server.EnvironmentName : null
+                })
                 .ToList();
 
             return Ok(services);
@@ -39,7 +50,7 @@ namespace InfraOpsMonitor.Controllers
             return Ok(incidents);
         }
 
-        [HttpGet("summary")]
+        [HttpGet("dashboard/summary")]
         public IActionResult GetSummary()
         {
             var services = _context.Services.ToList();
