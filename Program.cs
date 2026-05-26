@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using InfraOpsMonitor.Hubs;
 using InfraOpsMonitor.Data;
@@ -8,11 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
 
 builder.Services.AddDbContext<InfraOpsDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); 
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+    })
+
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<InfraOpsDbContext>();
 
 builder.Services.AddScoped<InfrastructureSimulationService>();
 
@@ -137,6 +146,58 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+    string[] roles = { "Admin", "Viewer" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+
+    string adminEmail = "admin@infraops.com";
+    string adminPassword = "Admin123!";
+
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+    if (adminUser == null)
+    {
+        adminUser = new IdentityUser
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            EmailConfirmed = true
+        };
+
+        await userManager.CreateAsync(adminUser, adminPassword);
+        await userManager.AddToRoleAsync(adminUser, "Admin");
+    }
+
+    string viewerEmail = "viewer@infraops.com";
+    string viewerPassword = "Viewer123!";
+
+    var viewerUser = await userManager.FindByEmailAsync(viewerEmail);
+
+    if (viewerUser == null)
+    {
+        viewerUser = new IdentityUser
+        {
+            UserName = viewerEmail,
+            Email = viewerEmail,
+            EmailConfirmed = true
+        };
+
+        await userManager.CreateAsync(viewerUser, viewerPassword);
+        await userManager.AddToRoleAsync(viewerUser, "Viewer");
+    }
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -150,6 +211,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -157,5 +219,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapHub<MonitoringHub>("/monitoringHub");
+
+app.MapRazorPages();
 
     app.Run();

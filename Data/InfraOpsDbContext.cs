@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using InfraOpsMonitor.Models;
 
 namespace InfraOpsMonitor.Data
 {
-    public class InfraOpsDbContext : DbContext
+    public class InfraOpsDbContext : IdentityDbContext
     {
         public InfraOpsDbContext(DbContextOptions<InfraOpsDbContext> options)
             : base(options)

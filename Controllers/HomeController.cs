@@ -2,6 +2,7 @@ using InfraOpsMonitor.Data;
 using InfraOpsMonitor.Models;
 using InfraOpsMonitor.Services;
 using InfraOpsMonitor.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -9,6 +10,7 @@ using System.Diagnostics;
 
 namespace InfraOpsMonitor.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly InfraOpsDbContext _context;
