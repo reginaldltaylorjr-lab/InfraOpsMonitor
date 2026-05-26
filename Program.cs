@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using InfraOpsMonitor.Hubs;
 using InfraOpsMonitor.Data;
 using InfraOpsMonitor.Models;
@@ -19,9 +20,20 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     {
         options.SignIn.RequireConfirmedAccount = false;
     })
-
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<InfraOpsDbContext>();
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "InfraOps Monitor API",
+        Version = "v1",
+        Description = "REST API endpoints for infrastructure monitoring, service health, server utilization, and incident response data."
+    });
+});
 
 builder.Services.AddScoped<InfrastructureSimulationService>();
 
@@ -206,6 +218,11 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "InfraOps Monitor API v1");
+});
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
