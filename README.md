@@ -1,0 +1,160 @@
+Live demo: https://infraopsmonitor-taylorr-project.azurewebsites.net 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Overview
+
+InfraOps Monitor simulates a real-world infrastructure operations dashboard used by systems engineering, DevOps, and IT operations teams to monitor service health, infrastructure utilization, and operational incidents across multiple environments. This project was developed to demonstrate practical systems engineering, cloud infrastructure, DevOps, and operational monitoring skills through a production-style ASP.NET Core application architecture deployed in Microsoft Azure.
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+
+The application was designed to demonstrate enterprise-style operational visibility concepts including:
+
+infrastructure monitoring
+service status tracking
+incident management
+live operational updates
+REST API development
+cloud deployment workflows
+CI/CD automation 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+
+The project evolved from a locally hosted ASP.NET Core MVC application into a fully cloud-deployed Azure-hosted monitoring platform integrated with Azure SQL Database and automated GitHub Actions deployment pipelines.
+
+Core Features
+Infrastructure Monitoring Dashboard
+Real-time operational dashboard displaying:
+server health
+CPU utilization
+memory utilization
+environment status
+incident severity metrics
+Production-style operational status indicators
+Searchable and filterable infrastructure views
+Interactive Monitoring Components
+Dynamic charts for:
+infrastructure utilization
+service health distribution
+incident severity breakdown
+Progress bars with status-aware color coding
+Live operational summary cards
+Last updated timestamp tracking
+SignalR Live Monitoring Integration
+Real-time SignalR client connection
+Live monitoring connection status notifications
+Foundation for real-time infrastructure event broadcasting
+REST API Endpoints 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Professional REST-style API architecture exposing infrastructure data through JSON endpoints:
+
+/api/servers
+/api/services
+/api/incidents
+/api/dashboard/summary
+Infrastructure Simulation Engine 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Custom simulation service dynamically updates:
+
+infrastructure metrics
+service health states
+utilization percentages
+operational incident conditions 
+
+This simulates live infrastructure behavior commonly seen in enterprise monitoring systems.
+
+Cloud & DevOps Implementation
+Azure Cloud Deployment
+Deployed to Azure App Service
+Azure-hosted ASP.NET Core MVC application
+Public cloud-hosted infrastructure monitoring platform
+Azure SQL Database Integration
+Migrated from SQL Server LocalDB to Azure SQL Database
+Entity Framework Core database migrations
+Cloud-hosted relational data persistence
+GitHub Actions CI/CD Pipeline 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Implemented Continuous Integration / Continuous Deployment workflow:
+
+GitHub Push → GitHub Actions Build → Azure Deployment 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Automated deployment pipeline features:
+
+GitHub Actions workflow automation
+Azure App Service deployment integration
+Automated cloud deployment on push to main branch
+Production Troubleshooting Experience 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Resolved real-world deployment and infrastructure issues including:
+
+Azure App Service startup failures
+HTTP 500.30 deployment troubleshooting
+Azure SQL firewall configuration
+Azure connection string configuration
+Entity Framework migration deployment sequencing
+Cloud application diagnostics and log streaming
+Technology Stack
+Backend
+ASP.NET Core MVC (.NET 8)
+C#
+Entity Framework Core
+LINQ
+SignalR
+Frontend
+Razor Views
+Bootstrap 5
+Chart.js
+JavaScript
+Database
+Azure SQL Database
+SQL Server
+Entity Framework Core Migrations
+Cloud & DevOps
+Microsoft Azure App Service
+GitHub Actions
+CI/CD Deployment Pipeline
+Azure App Service Deployment Center
+Source Control
+Git
+GitHub
+Architecture Concepts Demonstrated
+Infrastructure monitoring systems
+Operational dashboards
+Incident management workflows
+REST API architecture
+Real-time client/server communication
+Cloud-hosted application deployment
+CI/CD automation pipelines
+Systems engineering operational tooling
+Production deployment troubleshooting
+Future Enhancements 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Planned enhancements include:
+
+Authentication and role-based access
+Real-time SignalR infrastructure event broadcasting
+Docker containerization
+Enhanced API security
+Advanced operational analytics
+Monitoring alert simulation
+Background worker services
+Azure monitoring integrations
+Screenshots
+Infrastructure Dashboard
+Infrastructure utilization monitoring
+Service health visualization
+Incident severity analytics
+Operational status tracking
+Cloud Deployment
+Azure App Service deployment
+GitHub Actions CI/CD workflow
+Azure SQL cloud integration 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Author: Reginald Taylor
+GitHub: reginaldtaylorjr-lab 
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+
