@@ -12,6 +12,10 @@
     Auto-refresh: Every 30 seconds
 </p>
 
+<div id="liveUpdateBanner" class="alert alert-info d-none" role="alert">
+
+</div>
+
 <div class="row mb-4">
     <div class="col-md-3">
         <div class="card p-3">
@@ -374,6 +378,38 @@
             }]
         }
     });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/monitoringHub")
+        .build();
+
+    connection.on("ReceiveMonitoringUpdate", function (message) {
+        console.log("Monitoring update received:", message);
+
+        const updateBanner = document.getElementById("liveUpdateBanner");
+        if (updateBanner) {
+            updateBanner.innerText = message;
+            updateBanner.classList.remove("d-none");
+        }
+    });
+
+    connection.start()
+        .then(function () {
+            console.log("SignalR connected.");
+
+            const updateBanner = document.getElementById("liveUpdateBanner");
+            if (updateBanner) {
+                updateBanner.innerText = "Live monitoring connection established.";
+                updateBanner.classList.remove("d-none");
+            }
+        })
+        .catch(function (err) {
+            console.error(err.toString());
+        });
 </script>
 
 <script>

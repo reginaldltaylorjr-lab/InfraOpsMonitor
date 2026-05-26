@@ -20,7 +20,7 @@ namespace InfraOpsMonitor.Controllers
             _simulationService = simulationService;
         }
 
-        public IActionResult Index(
+        public async Task<IActionResult> Index(
             string searchTerm,
             string serviceStatusFilter,
             string environmentFilter,
@@ -28,7 +28,7 @@ namespace InfraOpsMonitor.Controllers
             string incidentStatusFilter
             )
         {
-            _simulationService.UpdateSystemMetrics();
+            await _simulationService.UpdateSystemMetricsAsync();
             
             var servers =  _context.Servers.ToList();
 

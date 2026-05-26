@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using InfraOpsMonitor.Hubs;
 using InfraOpsMonitor.Data;
 using InfraOpsMonitor.Models;
 using InfraOpsMonitor.Services;
@@ -7,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSignalR();
 
 builder.Services.AddDbContext<InfraOpsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -153,10 +156,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var db = scope.ServiceProvider.GetRequiredService<InfraOpsDbContext>();
-//    db.Database.Migrate();
-//}
+app.MapHub<MonitoringHub>("/monitoringHub");
 
     app.Run();

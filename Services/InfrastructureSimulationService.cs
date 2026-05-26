@@ -1,18 +1,22 @@
-﻿using InfraOpsMonitor.Data;
+﻿using Microsoft.AspNetCore.SignalR;
+using InfraOpsMonitor.Hubs;
+using InfraOpsMonitor.Data;
 
 namespace InfraOpsMonitor.Services
 {
     public class InfrastructureSimulationService
     {
         private readonly InfraOpsDbContext _context;
+        private readonly IHubContext<MonitoringHub> _hubContext;
         private readonly Random _random = new();
 
-        public InfrastructureSimulationService(InfraOpsDbContext context)
+        public InfrastructureSimulationService(InfraOpsDbContext context, IHubContext<MonitoringHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
-        public void UpdateSystemMetrics()
+        public async Task UpdateSystemMetricsAsync()
         {
             var servers = _context.Servers.ToList();
 
@@ -57,6 +61,10 @@ namespace InfraOpsMonitor.Services
             }
 
             _context.SaveChanges();
+
+            await _hubContext.Clients.All.SendAsync(
+                "ReceiveMonitoringUpdate",
+                $"Infrastructure metrics refreshed at {DateTime.Now:MM/dd/yyy hh:mm:ss tt}");
         }
     }
 }
