@@ -45,6 +45,9 @@ namespace InfraOpsMonitor.Controllers
             {
                 _context.Servers.Add(server);
                 _context.SaveChanges();
+
+                LogAudit("Created", "Server", server.ServerName);
+
                 return RedirectToAction(nameof(Servers));
             }
 
@@ -71,6 +74,9 @@ namespace InfraOpsMonitor.Controllers
             {
                 _context.Servers.Update(server);
                 _context.SaveChanges();
+
+                LogAudit("Edited", "Server", server.ServerName);
+
                 return RedirectToAction(nameof(Servers));
             }
 
@@ -97,8 +103,12 @@ namespace InfraOpsMonitor.Controllers
 
             if (server != null)
             {
+                string serverName = server.ServerName;
+
                 _context.Servers.Remove(server);
                 _context.SaveChanges();
+
+                LogAudit("Deleted", "Server", serverName);
             }
 
             return RedirectToAction(nameof(Servers));
@@ -123,6 +133,9 @@ namespace InfraOpsMonitor.Controllers
             {
                 _context.Incidents.Add(incident);
                 _context.SaveChanges();
+
+                LogAudit("Created", "Incident", incident.IncidentTitle);
+
                 return RedirectToAction(nameof(Incidents));
             }
 
@@ -149,6 +162,9 @@ namespace InfraOpsMonitor.Controllers
             {
                 _context.Incidents.Update(incident);
                 _context.SaveChanges();
+
+                LogAudit("Edited", "Incident", incident.IncidentTitle);
+
                 return RedirectToAction(nameof(Incidents));
             }
 
@@ -175,8 +191,12 @@ namespace InfraOpsMonitor.Controllers
 
             if (incident != null)
             {
+                string incidentTitle = incident.IncidentTitle;
+                
                 _context.Incidents.Remove(incident);
                 _context.SaveChanges();
+
+                LogAudit("Deleted", "Incident", incidentTitle);
             }
 
             return RedirectToAction(nameof(Incidents));
@@ -194,14 +214,37 @@ namespace InfraOpsMonitor.Controllers
             }
 
             incident.Status = "Resolved";
-
-            // Optional additions:
-            // incident.ResolvedAt = DateTime.Now;
-            // incident.ResolvedBy = User.Identity?.Name;
+            incident.ResolvedAt = DateTime.Now;
 
             _context.SaveChanges();
 
+            LogAudit("Resolved", "Incident", incident.IncidentTitle);
+
             return RedirectToAction(nameof(Incidents));
+        }
+
+        public IActionResult AuditLogs()
+        {
+            var logs = _context.AuditLogs
+                .OrderByDescending(log => log.Timestamp)
+                .ToList();
+
+            return View(logs);
+        }
+
+        private void LogAudit(string action, string entityType, string entityName)
+        {
+            var audit = new AuditLog
+            {
+                Username = User.Identity?.Name ?? "Unknown",
+                Action = action,
+                EntityType = entityType,
+                EntityName = entityName,
+                Timestamp = DateTime.Now
+            };
+
+            _context.AuditLogs.Add(audit);
+            _context.SaveChanges();
         }
     }
 }

@@ -14,6 +14,7 @@ namespace InfraOpsMonitor.Data
         public DbSet<Service> Services { get; set; }
         public DbSet<Server> Servers { get; set; }
         public DbSet<Incident> Incidents { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
         public DbSet<Models.Environment> Environments { get; set; }
     }
 }

@@ -37,6 +37,11 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddScoped<InfrastructureSimulationService>();
 
+builder.Services.AddHealthChecks()
+    .AddSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")!,
+        name: "Azure SQL Database");
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -174,8 +179,7 @@ using (var scope = app.Services.CreateScope())
     }
 
     string adminEmail = "admin@infraops.com";
-    string adminPassword = "Password#1";
-    //string adminPassword = "Admin123!";
+    string adminPassword = "Admin#123";
 
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
@@ -189,7 +193,11 @@ using (var scope = app.Services.CreateScope())
         };
 
         await userManager.CreateAsync(adminUser, adminPassword);
-        //await userManager.AddToRoleAsync(adminUser, "Admin");
+    }
+    else
+    {
+        var token = await userManager.GeneratePasswordResetTokenAsync(adminUser);
+        await userManager.ResetPasswordAsync(adminUser, token, adminPassword);
     }
 
     if (adminUser != null && !await userManager.IsInRoleAsync(adminUser, "Admin"))
@@ -198,7 +206,7 @@ using (var scope = app.Services.CreateScope())
     }
 
     string viewerEmail = "viewer@infraops.com";
-    string viewerPassword = "Viewer123!";
+    string viewerPassword = "Viewer#123";
 
     var viewerUser = await userManager.FindByEmailAsync(viewerEmail);
 
@@ -212,6 +220,15 @@ using (var scope = app.Services.CreateScope())
         };
 
         await userManager.CreateAsync(viewerUser, viewerPassword);
+    }
+    else
+    {
+        var token = await userManager.GeneratePasswordResetTokenAsync(viewerUser);
+        await userManager.ResetPasswordAsync(viewerUser, token, viewerPassword);
+    }
+
+    if (viewerUser != null && !await userManager.IsInRoleAsync(viewerUser, "Viewer"))
+    {
         await userManager.AddToRoleAsync(viewerUser, "Viewer");
     }
 }
@@ -244,5 +261,7 @@ app.MapControllerRoute(
 app.MapHub<MonitoringHub>("/monitoringHub");
 
 app.MapRazorPages();
+
+app.MapHealthChecks("/health");
 
     app.Run();
