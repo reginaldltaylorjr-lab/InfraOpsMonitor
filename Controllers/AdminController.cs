@@ -103,5 +103,105 @@ namespace InfraOpsMonitor.Controllers
 
             return RedirectToAction(nameof(Servers));
         }
+
+        public IActionResult Incidents()
+        {
+            var incidents = _context.Incidents.ToList();
+            return View(incidents);
+        }
+
+        public IActionResult CreateIncident()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateIncident(Incident incident)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Incidents.Add(incident);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Incidents));
+            }
+
+            return View(incident);
+        }
+
+        public IActionResult EditIncident(int id)
+        {
+            var incident = _context.Incidents.Find(id);
+
+            if (incident == null)
+            {
+                return NotFound();
+            }
+
+            return View(incident);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditIncident(Incident incident)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Incidents.Update(incident);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Incidents));
+            }
+
+            return View(incident);
+        }
+
+        public IActionResult DeleteIncident(int id)
+        {
+            var incident = _context.Incidents.Find(id);
+
+            if (incident == null)
+            {
+                return NotFound();
+            }
+
+            return View(incident);
+        }
+
+        [HttpPost, ActionName("DeleteIncident")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteIncidentConfirmed(int id)
+        {
+            var incident = _context.Incidents.Find(id);
+
+            if (incident != null)
+            {
+                _context.Incidents.Remove(incident);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction(nameof(Incidents));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ResolveIncident(int id)
+        {
+            var incident = _context.Incidents.Find(id);
+
+            if (incident == null)
+            {
+                return NotFound();
+            }
+
+            incident.Status = "Resolved";
+
+            // Optional additions:
+            // incident.ResolvedAt = DateTime.Now;
+            // incident.ResolvedBy = User.Identity?.Name;
+
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Incidents));
+        }
     }
 }

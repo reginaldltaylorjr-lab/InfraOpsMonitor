@@ -1,0 +1,66 @@
+﻿@model InfraOpsMonitor.Models.Incident
+
+@{
+    ViewData["Title"] = "Edit Incident";
+}
+
+<h1>Edit Incident</h1>
+<p class="text-muted">Update incident details, severity, assignment, or operational status.</p>
+
+<form asp-action="EditIncident" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="CreatedAt" />
+
+    <div class="mb-3">
+        <label asp-for="IncidentTitle" class="form-label"></label>
+        <input asp-for="IncidentTitle" class="form-control" />
+        <span asp-validation-for="IncidentTitle" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Severity" class="form-label"></label>
+        <select asp-for="Severity" class="form-select">
+            <option value="Critical">Critical</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
+        <span asp-validation-for="Severity" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Status" class="form-label"></label>
+        <select asp-for="Status" class="form-select">
+            <option value="Open">Open</option>
+            <option value="Acknowledged">Acknowledged</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+        </select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="AssignedEngineer" class="form-label"></label>
+        <input asp-for="AssignedEngineer" class="form-control" />
+        <span asp-validation-for="AssignedEngineer" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ResolvedAt" class="form-label"></label>
+        <input asp-for="ResolvedAt" class="form-control" type="datetime-local" />
+        <span asp-validation-for="ResolvedAt" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="Incidents" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

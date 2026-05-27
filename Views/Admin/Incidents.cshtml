@@ -1,0 +1,121 @@
+﻿@model IEnumerable<InfraOpsMonitor.Models.Incident>
+
+@{
+    ViewData["Title"] = "Incident Management";
+}
+
+<h1>Incident Management</h1>
+
+<p class="text-muted">
+    Admin-only operational incident tracking and response management.
+</p>
+
+<a asp-action="CreateIncident" class="btn btn-primary mb-3">
+    Create New Incident
+</a>
+
+<table class="table table-bordered table-striped align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Title</th>
+            <th>Severity</th>
+            <th>Status</th>
+            <th>Assigned Engineer</th>
+            <th>Created</th>
+            <th>Resolved</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var incident in Model)
+        {
+            <tr>
+                <td>@incident.IncidentTitle</td>
+
+                <td>
+                    @if (incident.Severity == "Critical")
+                    {
+                        <span class="badge bg-danger">Critical</span>
+                    }
+                    else if (incident.Severity == "High")
+                    {
+                        <span class="badge bg-warning text-dark">High</span>
+                    }
+                    else if (incident.Severity == "Medium")
+                    {
+                        <span class="badge bg-info text-dark">Medium</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Low</span>
+                    }
+                </td>
+
+                <td>
+                    @if (incident.Status == "Resolved")
+                    {
+                        <span class="badge bg-success">Resolved</span>
+                    }
+                    else if (incident.Status == "In Progress")
+                    {
+                        <span class="badge bg-warning text-dark">In Progress</span>
+                    }
+                    else if (incident.Status == "Acknowledged")
+                    {
+                        <span class="badge bg-info text-dark">Acknowledged</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Open</span>
+                    }
+                </td>
+
+                <td>@incident.AssignedEngineer</td>
+
+                <td>
+                    @incident.CreatedAt.ToString("MM/dd/yyyy hh:mm tt")
+                </td>
+
+                <td>
+                    @(incident.ResolvedAt?.ToString("MM/dd/yyyy hh:mm tt") ?? "Not Resolved")
+                </td>
+
+                <td>
+                    <a asp-action="EditIncident"
+                       asp-route-id="@incident.Id"
+                       class="btn btn-sm btn-warning">
+                        Edit
+                    </a>
+
+                    @if (incident.Status != "Resolved")
+                    {
+                        <form asp-action="ResolveIncident"
+                              method="post"
+                              style="display:inline;">
+
+                            <input type="hidden"
+                                   name="id"
+                                   value="@incident.Id" />
+
+                            <button type="submit"
+                                    class="btn btn-sm btn-success">
+                                Resolve
+                            </button>
+                        </form>
+                    }
+
+                    <a asp-action="DeleteIncident"
+                       asp-route-id="@incident.Id"
+                       class="btn btn-sm btn-danger">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">
+    Back to Admin Panel
+</a>
