@@ -194,11 +194,6 @@ using (var scope = app.Services.CreateScope())
 
         await userManager.CreateAsync(adminUser, adminPassword);
     }
-    else
-    {
-        var token = await userManager.GeneratePasswordResetTokenAsync(adminUser);
-        await userManager.ResetPasswordAsync(adminUser, token, adminPassword);
-    }
 
     if (adminUser != null && !await userManager.IsInRoleAsync(adminUser, "Admin"))
     {
@@ -220,11 +215,6 @@ using (var scope = app.Services.CreateScope())
         };
 
         await userManager.CreateAsync(viewerUser, viewerPassword);
-    }
-    else
-    {
-        var token = await userManager.GeneratePasswordResetTokenAsync(viewerUser);
-        await userManager.ResetPasswordAsync(viewerUser, token, viewerPassword);
     }
 
     if (viewerUser != null && !await userManager.IsInRoleAsync(viewerUser, "Viewer"))
