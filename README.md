@@ -161,6 +161,42 @@ Swagger/OpenAPI documentation is available at:
 https://infraopsmonitor-taylorr-project.azurewebsites.net/swagger
 _______________________________________________________________________________________________________________________________________________________________________________________________________________
 
+## Recent Enhancements
+
+### Authentication & Authorization
+- ASP.NET Core Identity integration
+- Role-based access control (RBAC)
+- Admin and Viewer user roles
+- Protected dashboard and administrative functionality
+
+### Administrative Operations Portal
+- Server Management
+  - Create servers
+  - Edit server details
+  - Delete servers
+
+- Incident Management
+  - Create incidents
+  - Edit incidents
+  - Resolve incidents
+  - Delete incidents
+
+### Audit Logging
+- Tracks administrative activity
+- Records:
+  - User
+  - Action
+  - Entity Type
+  - Entity Name
+  - Timestamp
+- Supports operational accountability and change tracking
+
+### Health Monitoring
+- Application health endpoint
+- Database connectivity verification
+- Infrastructure monitoring readiness
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+
 Author: Reginald Taylor / 
 GitHub: reginaldtaylorjr-lab 
 _______________________________________________________________________________________________________________________________________________________________________________________________________________
