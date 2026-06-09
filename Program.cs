@@ -221,6 +221,7 @@ using (var scope = app.Services.CreateScope())
     {
         await userManager.AddToRoleAsync(viewerUser, "Viewer");
     }
+
 }
 
 // Configure the HTTP request pipeline.
